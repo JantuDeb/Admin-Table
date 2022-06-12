@@ -11,7 +11,10 @@ import {
   getStartIndex,
   getTotalPages,
 } from "../../utils/pagination-helper";
-import { filterReducer, initialFilterState } from "../../reducers/filter-reducer";
+import {
+  filterReducer,
+  initialFilterState,
+} from "../../reducers/filter-reducer";
 import { userActions } from "../../actions/user-actions";
 import { userReducer } from "../../reducers/user-reducer";
 
@@ -22,14 +25,15 @@ const UserProvider = ({ children }) => {
     users: [],
     pageSize: 10,
     currentPage: 0,
+    loading: false,
   });
 
   const [filterState, filterDispatch] = useReducer(
     filterReducer,
     initialFilterState
   );
-  
-  const { pageSize, currentPage } = userState;
+
+  const { pageSize, currentPage,loading } = userState;
   const filteredUsers = getFilteredData(filterState, userState.users);
   const sortedUsers = getSortedData(filterState, filteredUsers);
   const totalItems = sortedUsers.length;
@@ -50,7 +54,6 @@ const UserProvider = ({ children }) => {
     []
   );
 
-  
   const setPreviousPage = useCallback(
     () => userDispatch({ type: userActions.PREVIOUS_PAGE }),
     []
@@ -76,7 +79,6 @@ const UserProvider = ({ children }) => {
     });
   };
 
-
   // Select a single user row
   const selectUser = (userId) => {
     userDispatch({
@@ -87,7 +89,6 @@ const UserProvider = ({ children }) => {
     });
   };
 
-
   // Delete all selected user rows
   const deleteSelected = () => {
     userDispatch({
@@ -95,19 +96,15 @@ const UserProvider = ({ children }) => {
     });
   };
 
-
   const deleteUser = (userId) =>
     userDispatch({ type: userActions.DELETE_USER, payload: { userId } });
-
-
 
   const updateUser = (user) =>
     userDispatch({ type: userActions.UPDATE_USER, payload: { user } });
 
-
-
   // Load user data in APP render
   useEffect(() => {
+    userDispatch({ type: userActions.SET_LOADING });
     (async () => {
       try {
         const response = await fetch(process.env.REACT_APP_API_ENDPOINT);
@@ -142,7 +139,8 @@ const UserProvider = ({ children }) => {
         deleteSelected,
         deleteUser,
         filterDispatch,
-        updateUser
+        updateUser,
+        loading
       }}
     >
       {children}

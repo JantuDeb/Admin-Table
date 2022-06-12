@@ -10,4 +10,5 @@ export const userActions = {
   SET_PAGE: "SET_PAGE",
   NEXT_PAGE: "NEXT_PAGE",
   PREVIOUS_PAGE: "PREVIOUS_PAGE",
+  SET_LOADING:"SET_LOADING"
 };

@@ -17,6 +17,7 @@ export const userReducer = (state, action) => {
       return {
         ...state,
         users: payload.users,
+        loading:false
       };
     case userActions.SELECT_USER:
       return {
@@ -68,6 +69,8 @@ export const userReducer = (state, action) => {
           user.id === payload.user.id ? { ...payload.user } : user
         ),
       };
+    case userActions.SET_LOADING:
+      return { ...state, loading: true };
     default:
       return state;
   }

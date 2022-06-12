@@ -3,11 +3,11 @@ import { TableHead } from "./TableHead";
 import { TableRow } from "./TableRow";
 
 const Table = () => {
-  const { paginatedUsers } = useUsers();
+  const { paginatedUsers,loading } = useUsers();
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      {paginatedUsers.length === 0 ? (
+      {loading ? (
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
